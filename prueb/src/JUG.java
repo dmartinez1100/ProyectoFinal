@@ -8,7 +8,7 @@ private int y=0;
 private static int dy=20;
 
 	public JUG(int x)	{
-		this.x=x;y=0;
+		this.x=x;y=Hilo1.width/2;
 	}
 	public void setY(int y) {
 		this.y=y;

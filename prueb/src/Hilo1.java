@@ -11,8 +11,8 @@ public class Hilo1 extends Applet implements Runnable{
 	Thread animacion;
 	Thread updt;
 	Graphics parpadeo;Image fondo;
-	private	int dx=rdm.nextBoolean()?-5:5,dy=4,y=rdm.nextInt(15,width-20),x=height/2,tamano=25;
-	public static int height=800,width=300,mitadx=height/2,mitady=width/2;
+	private	int dx=rdm.nextBoolean()?-5:5,dy=4,y=rdm.nextInt(15,width-tamano),x=height/2;
+	public static int height=800,width=300,mitadx=height/2,mitady=width/2,tamano=25;
 	public int marcadorj1=0,marcadorj2=0;
 	public J1 j1=new J1(0);
 	public J2 j2=new J2(height);
@@ -80,6 +80,7 @@ public class Hilo1 extends Applet implements Runnable{
 	public void run() { 
 		try {
 			while(true) {
+				dx=rdm.nextBoolean()?-5:5;
 				y=rdm.nextInt(15,width-20);x=height/2;
 			for (int x=3;x>=0;x--) {
 				Game=""+x;
