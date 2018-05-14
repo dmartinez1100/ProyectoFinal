@@ -31,14 +31,4 @@ private static int dy=20;
 	public void moverup() {
 		if(y>0)y-=dy;
 	}	
-	
-	/**public void keyPressed(KeyEvent e) {
-		//int key=e.getKeyCode();		
-		//if (key== KeyEvent.VK_DOWN & x>0) moverdown();
-		//if (key== KeyEvent.VK_UP & x>0) moverup();
-	}
-	 public void keyReleased(KeyEvent arg0) {
-	 }
-	 public void keyTyped(KeyEvent arg0) {
-	 }**/
 }
