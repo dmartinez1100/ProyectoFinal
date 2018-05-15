@@ -2,13 +2,17 @@ package prueb;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-public class Serpiente implements KeyListener{
+
+import acm.graphics.GRect;
+import acm.program.GraphicsProgram;
+public class Serpiente extends GraphicsProgram implements KeyListener{
 	private static int snakesize=15;
 	private int x;
 	private int y;
 	private boolean indicadory=false,indicadorx=true,crecer=false;
 	private static int dy=1;
 	private static int dx=1;
+	GRect serp=new GRect(10,10,50,50);
 		
 		public Serpiente()	{
 			x=0;y=Juego2.height/2;
@@ -38,7 +42,6 @@ public class Serpiente implements KeyListener{
 			indicadory=true;
 				dy*=dy>0?1:-1;
 			}
-			System.out.print("serp movida");
 		}
 		public void moverup() {
 				if(indicadorx) {

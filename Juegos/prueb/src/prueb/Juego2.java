@@ -25,7 +25,9 @@ public class Juego2 extends Applet implements Runnable{
 		parpadeo.setColor(Color.WHITE);
 		parpadeo.fillRect(0, 0, width,height);
 		parpadeo.setColor(Color.BLACK);
-		parpadeo.fillRect(jugador.getX() ,jugador.getY(),jugador.snakesize(),jugador.snakesize());
+		for(int x=1;x<15;x++)
+		parpadeo.fillRect(jugador.getX()+x,jugador.getY()+x,jugador.snakesize(),jugador.snakesize());
+		
 		y.drawImage(fondo,0,0,null);
 		
 	}
