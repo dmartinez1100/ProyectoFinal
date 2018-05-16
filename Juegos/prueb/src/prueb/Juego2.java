@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 
 public class Juego2 extends Applet implements Runnable{	
 	private static final long serialVersionUID = 1L;
@@ -25,9 +26,12 @@ public class Juego2 extends Applet implements Runnable{
 		parpadeo.setColor(Color.WHITE);
 		parpadeo.fillRect(0, 0, width,height);
 		parpadeo.setColor(Color.BLACK);
-		for(int x=1;x<15;x++)
-		parpadeo.fillRect(jugador.getX()+x,jugador.getY()+x,jugador.snakesize(),jugador.snakesize());
 		
+		ArrayList <Punto> body=jugador.getbody();
+		for(int x=0;x<body.size();x++) {
+			Punto point=body.get(x);
+		parpadeo.fillRect(point.getx(),point.gety(),jugador.snakesize(),jugador.snakesize());
+		}
 		y.drawImage(fondo,0,0,null);
 		
 	}
@@ -52,9 +56,9 @@ public class Juego2 extends Applet implements Runnable{
 		moverserpiente.start(); 
 	}
 	
-	public void init() { 
-		setFont(new Font("BOLD",2,40));
+	public void init() {
 		resize(width,height);
+		setFont(new Font("BOLD",2,40));
 		addKeyListener(jugador);
 	}
 	public void juego() {

@@ -8,15 +8,14 @@ import java.awt.Image;
 public class Hilo1 extends Applet implements Runnable{	
 	private static final long serialVersionUID = 1L;
 	RandomGenerator rdm= new RandomGenerator();
-	Thread animacion;
-	Thread updt;
+	Thread animacion,updt,pelotin;
 	Graphics parpadeo;Image fondo;
-	private	int dx=rdm.nextBoolean()?-5:5,dy=4,y=rdm.nextInt(15,width-tamano-25),x=height/2;
-	public static int height=800,width=300,mitadx=height/2,mitady=width/2,tamano=25,winpoints=5;
+	private int vel=1,vel2=14,vel3=14;
+	private	int dx=rdm.nextBoolean()?-vel:vel,dy=vel-2,y=rdm.nextInt(15,width-tamano-25),x=height/2;
+	public static int height=1300,width=600,mitadx=height/2,mitady=width/2,tamano=25,winpoints=1;
 	public int marcadorj1=0,marcadorj2=0;
-	public J1 j1=new J1(0);
-	public J2 j2=new J2(height);
-	public static Color COLORJUG = Color.RED;
+	public J1 j1=new J1(10);
+	public J2 j2=new J2(height-10);
 	public String Game="",mj1=""+marcadorj1,mj2=""+marcadorj2,marc1="",marc2="";
 	public void moverpelota() {
 		x+=dx;y+=dy;
@@ -36,26 +35,30 @@ public class Hilo1 extends Applet implements Runnable{
 	public void update(Graphics y) {
 		fondo=createImage(height,width);
 		parpadeo=fondo.getGraphics();
+		
 		parpadeo.setColor(Color.BLACK);
 		parpadeo.fillRect(0, 0, height/2, width);
-		parpadeo.setColor(Color.GREEN);
-		parpadeo.fillOval(x,this.y,tamano, tamano);
-		parpadeo.setColor(COLORJUG);
-		parpadeo.fillRect(j1.getX(),j1.getY(),j1.getJwidth(),j1.getJheight());
-		parpadeo.fillRect(j2.getX()-j2.getJwidth(),j2.getY(),j1.getJwidth(),j1.getJheight());
-		parpadeo.setColor(Color.RED);
-		parpadeo.drawString(Game,mitadx,mitady);
-		parpadeo.setColor(Color.WHITE);
-		parpadeo.drawString(marc1, 50, mitady);
+		
+		parpadeo.setColor(Color.GRAY);
 		parpadeo.drawString(mj1,(height/2)/2,40);
+		parpadeo.fillRect(height/2, 0, height/2, width);
+		parpadeo.fillRect(j1.getX(),j1.getY(),j1.getJwidth(),j1.getJheight());
+		parpadeo.drawString(marc1, 50, mitady);
+			//pelota
+		parpadeo.setColor(x<height/2?Color.GRAY:Color.BLACK);
+		parpadeo.fillOval(x,this.y,tamano, tamano);
+			//
+		parpadeo.setColor(Color.WHITE);
+		parpadeo.drawString(Game,mitadx,mitady);
 		parpadeo.setColor(Color.BLACK);
+		parpadeo.fillRect(j2.getX()-j2.getJwidth(),j2.getY(),j1.getJwidth(),j1.getJheight());
 		parpadeo.drawString(marc2,mitadx+50, mitady);
 		parpadeo.drawString(mj2,height/2+(height/2)/2,40);
 		y.drawImage(fondo,0,0,null);
 	}
 	public void perder(){
 		try {
-			if (x<0) marc2="BIEN J2"; else marc1="BIEN J1";
+			if (x<=0) marc2="BIEN J2"; else marc1="BIEN J1";
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -64,16 +67,19 @@ public class Hilo1 extends Applet implements Runnable{
 		mj1=""+marcadorj1;mj2=""+marcadorj2;
 	}
 	public void start() {
-		animacion=new Thread(this);
 		Recargador j= new Recargador();
+		moverpelota4kenespanol ret=new moverpelota4kenespanol();
+		animacion=new Thread(this);
+		pelotin= new Thread(ret);
 		updt=new Thread(j);
 		animacion.start();
 		updt.start();
+		pelotin.start();
 	}
 	
-	public void init() { 
-		setFont(new Font("BOLD",2,40));
+	public void init() {
 		resize(height,width);
+		setFont(new Font("BOLD",2,40));
 		addKeyListener(j1);
 		addKeyListener(j2);
 	}
@@ -81,7 +87,8 @@ public class Hilo1 extends Applet implements Runnable{
 		try {
 			while(marc1 =="" && marc2=="") {
 				moverpelota();
-			Thread.sleep(20);}
+			Thread.sleep(vel2);
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,16 +98,16 @@ public class Hilo1 extends Applet implements Runnable{
 		try {
 			Thread.sleep(3000);
 			while(marcadorj1 != winpoints && marcadorj2!=winpoints) {
-				dx=rdm.nextBoolean()?-5:5;
+				dx=rdm.nextBoolean()?-vel:vel;
 				y=rdm.nextInt(15,width-tamano-25);x=height/2;
 			for (int x=3;x>=0;x--) {
 				Game=""+x;
 				Thread.sleep(1000);}
-			marc1="";marc2="";
-			juego();
+			marc1="";marc2="";Game="";
+			juego();vel2=vel3;
 			}
 			marc1="";marc2="";
-			if (marcadorj1==winpoints)Game="GANASTE J1!"; else Game="GANASTE J2";
+			if (marcadorj1==winpoints)marc1="GANASTE J1!"; else marc2="GANASTE J2";
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -110,6 +117,21 @@ public class Hilo1 extends Applet implements Runnable{
 	public class Recargador implements Runnable{
 		public void run() {
 			while(true)repaint();
+		}
+	
+	}
+	public class moverpelota4kenespanol implements Runnable{
+		public void run() {
+			try {
+				while(true) {
+					System.out.print(""+ vel2);
+					vel2-=vel2>2?2:0;
+					Thread.sleep(6000);
+					}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 }

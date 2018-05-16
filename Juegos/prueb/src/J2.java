@@ -9,6 +9,11 @@ public class J2 extends JUG implements KeyListener{
 		int key=e.getKeyCode();
 		if (key== KeyEvent.VK_DOWN) moverdown();
 		if (key== KeyEvent.VK_UP) moverup();
+		if (key== KeyEvent.VK_DOWN) moverdown();
+		if (key== KeyEvent.VK_UP) moverup();
+		if (key== KeyEvent.VK_DOWN) moverdown();
+		if (key== KeyEvent.VK_UP) moverup();
+		
 	}
 	 public void keyReleased(KeyEvent arg0) {
 	 }

@@ -1,0 +1,47 @@
+package prueb;
+
+import java.util.ArrayList;
+
+public class Punto {
+	private int x,y;
+	
+	public Punto() {
+		x=0;
+		y=0;
+	}
+	public Punto(int j,int k) {
+		x=j;
+		y=k;
+	}
+	public int getx() {
+		return x;
+	}
+	public int gety() {
+		return y;
+	}
+	public void sety(int t) {
+		y=t;
+	}
+	public void setx(int t) {
+		x=t;
+	}
+	public static ArrayList<Integer> serpenteo(ArrayList<Integer>  lista,int elemento){
+		ArrayList<Integer> cambio=lista;
+		for(int w=cambio.size()-1;w>0;w--) {
+			cambio.set(w,cambio.get(w-1));
+		}
+			cambio.set(0, elemento);
+			return cambio;
+	}
+	public static void main(String[]args) {
+		ArrayList<Integer> lista=new ArrayList<Integer>();
+		for(int x=1;x<5;x++) {
+			lista.add(x);
+		}
+		System.out.println(lista);
+	//	System.out.println(serpenteo(lista,10));
+		System.out.println(serpenteo(lista,0));
+		System.out.println(serpenteo(lista,32));
+		System.out.println(lista);
+	}
+}

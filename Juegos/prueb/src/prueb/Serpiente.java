@@ -1,22 +1,28 @@
 package prueb;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
-import acm.graphics.GRect;
-import acm.program.GraphicsProgram;
-public class Serpiente extends GraphicsProgram implements KeyListener{
+public class Serpiente implements KeyListener{
+
 	private static int snakesize=15;
 	private int x;
 	private int y;
 	private boolean indicadory=false,indicadorx=true,crecer=false;
 	private static int dy=1;
 	private static int dx=1;
-	GRect serp=new GRect(10,10,50,50);
-		
+	private ArrayList<Punto> body=new ArrayList <Punto>();		
+	
 		public Serpiente()	{
 			x=0;y=Juego2.height/2;
+			body.add(new Punto(x,y));
 			System.out.print("serp creada");
+		}
+		public Punto getPunto() {
+			return new Punto(x,y);
+		}
+		public ArrayList<Punto> getbody(){
+			return body;
 		}
 		public void setY(int y) {
 			this.y=y;
@@ -31,10 +37,17 @@ public class Serpiente extends GraphicsProgram implements KeyListener{
 			return snakesize;
 		}
 		public void mover() {
-			if(indicadorx)
+			if(indicadorx) {
 			x+=dx;
-			if(indicadory)
+			serpenteo(body,new Punto(x,y));
+			}
+			if(indicadory) {
 			y+=dy;
+			serpenteo(body,new Punto(x,y));
+			}			
+			body.add(new Punto(x,y));
+			body.remove(body.size()-1);
+			
 		}
 		public void moverdown() {
 			if(indicadorx){
@@ -42,6 +55,9 @@ public class Serpiente extends GraphicsProgram implements KeyListener{
 			indicadory=true;
 				dy*=dy>0?1:-1;
 			}
+			for(int x=0;x<14;x++)
+			body.add(1,new Punto(-15,-15));
+			
 		}
 		public void moverup() {
 				if(indicadorx) {
@@ -75,6 +91,14 @@ public class Serpiente extends GraphicsProgram implements KeyListener{
 		}
 		public void setcrecer(boolean nota) {
 			crecer=nota;
+		}
+		public ArrayList<Punto> serpenteo(ArrayList <Punto> lista,Punto elemento){
+			ArrayList <Punto>cambio=lista;
+			for(int w=lista.size()-1;w>0;w--) {
+				cambio.set(w,lista.get(w-1));
+			}
+				cambio.set(0, elemento);
+				return cambio;
 		}
 		public void keyPressed(KeyEvent e) {
 			int key=e.getKeyCode();		
